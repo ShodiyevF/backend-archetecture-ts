@@ -1,0 +1,42 @@
+{
+  "ts-node": {
+      "require": ["tsconfig-paths/register"]
+  },
+  "compilerOptions": {
+    "target": "ES6",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "module": "CommonJS",
+    "declaration": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "baseUrl": "src",
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@logger/*": ["shared/logger/*"],
+      "@config/*": ["config/*"],
+      "@errorCatcher/*": ["shared/logger/logger.internal.js"],
+      "@sharedLib/*": ["shared/lib/*"],
+      "@lib/*": ["lib/*"],
+      "@middlewares/*": ["middlewares/*"],
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "logs"]
+}

@@ -1,0 +1,9 @@
+# FOLDERS
+/dist
+/log
+/node_modules
+/upload
+
+# FILES
+package-lock.json
+.env
