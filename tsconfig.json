@@ -29,12 +29,13 @@
     "noFallthroughCasesInSwitch": true,
     "strictPropertyInitialization": false,
     "paths": {
-      "@logger/*": ["shared/logger/*"],
       "@config/*": ["config/*"],
-      "@errorCatcher/*": ["shared/logger/logger.internal.js"],
-      "@sharedLib/*": ["shared/lib/*"],
       "@lib/*": ["lib/*"],
-      "@middlewares/*": ["middlewares/*"],
+      "@middleware/*": ["middleware/*"],
+      "@module/*": ["module/*"],
+      "@sharedLib/*": ["shared/lib/*"],
+      "@logger/*": ["shared/logger/*"],
+      "@errorCatcher/*": ["shared/logger/logger.internal.js"],
     }
   },
   "include": ["src/**/*"],

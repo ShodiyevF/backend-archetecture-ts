@@ -1,7 +1,7 @@
 import dotnev from 'dotenv'
 dotnev.config({ path: `.env` });
 
-import { logger, notFoundLogger } from '@middlewares/logger.middleware';
+import { logger, notFoundLogger } from '@middleware/logger.middleware';
 import { runConfigCronJobs } from '@config/cronjobs.config';
 import { initDefaultFolders } from '@config/defaultfiles';
 import expressFileupload from 'express-fileupload'
@@ -39,7 +39,7 @@ export default function app(routes: []) {
     }
 
     function notFoundLogs() {
-        app.use(notFoundLogger);
+        app.use(notFoundLogger);        
     }
 
     function initRoutes(routes: []) {
