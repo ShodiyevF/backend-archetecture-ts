@@ -1,8 +1,28 @@
-const { internalErrorCatcher } = require('../logger/logger.internal');
+import { internalErrorCatcher } from "@logger/logger.internal";
 
-function validator(dto, body) {
-    try {
-        for (let key in dto) {
+interface ValidationRule {
+    required?: boolean;
+    type?: string;
+    min?: number;
+    max?: number;
+    minLength?: number;
+    maxLength?: number;
+    pattern?: RegExp[];
+    custom_validation?: [((value: any) => boolean), string];
+}
+
+export interface DTO {
+    [key: string]: ValidationRule;
+}
+
+interface ValidationResult {
+    status: number;
+    error?: string;
+}
+
+export function validator(dto: DTO, body: { [key: string]: any }): ValidationResult {
+    try {   
+        for (const key in dto) {
             if (dto.hasOwnProperty(key)) {
                 const rules = dto[key];
                 const value = body[key];
@@ -15,8 +35,10 @@ function validator(dto, body) {
                     continue;
                 }
 
-                if (rules.type && rules.type == 'number' ? (isNaN(+value) ? true : false) : typeof value !== rules.type) {
-                    return { status: 400, error: `${key}: Expected type ${rules.type}, but got ${typeof value}` };
+                if (rules.type === 'boolean') {   
+                    if (value !== true && value !== false && value !== 'true' && value !== 'false') {
+                        return { status: 400, error: `${key}: Expected type ${rules.type}, but got ${typeof value}` };
+                    }
                 }
 
                 if (rules.type === 'number') {
@@ -39,10 +61,10 @@ function validator(dto, body) {
                 }
 
                 if (rules.pattern && rules.pattern.length && !rules.pattern[0].test(value)) {
-                    return { status: 400, error: `${key}: Value does not match the required pattern ${rules.pattern[1]}` };
+                    return { status: 400, error: `${key}: Value does not match the required pattern ${rules.pattern[0]}` };
                 }
 
-                if (rules.custom_validation && !rules.custom_validation[0]) {
+                if (rules.custom_validation && !rules.custom_validation[0](value)) {
                     return { status: 400, error: `${key}: ${rules.custom_validation[1]}` };
                 }
             }
@@ -50,10 +72,7 @@ function validator(dto, body) {
 
         return { status: 200 };
     } catch (error) {
-        internalErrorCatcher(error);
+        internalErrorCatcher(error)
+        return { status: 400 };
     }
 }
-
-module.exports = {
-    validator,
-};
