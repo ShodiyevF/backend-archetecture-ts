@@ -9,3 +9,14 @@ export enum Errors {
     UPLOAD_ERROR = 'UPLOAD_ERROR',
 };
 
+export class HttpException {
+    status: number;
+    message: string;
+    error: Errors;
+    
+    constructor(status: number, message: string, error: Errors) {
+        this.status = status;
+        this.message = message || '';
+        this.error = error;
+    }
+}
