@@ -23,6 +23,7 @@ export default function app(routes: []) {
     }
 
     function initMiddlewares() {
+        app.use(notFoundLogger);        
         app.use(logger);
         app.use(cors(CORS_OPTIONS));
         app.use(express.json());
@@ -38,10 +39,6 @@ export default function app(routes: []) {
         initDefaultFolders();
     }
 
-    function notFoundLogs() {
-        app.use(notFoundLogger);        
-    }
-
     function initRoutes(routes: []) {
         routes.forEach(route => {
             app.use(route);
@@ -53,7 +50,6 @@ export default function app(routes: []) {
         initCronjobs();
         initMiddlewares();
         initRoutes(routes);
-        notFoundLogs();
         listener();
     }
 
