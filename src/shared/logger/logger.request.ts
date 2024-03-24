@@ -1,7 +1,6 @@
 import { getCurrentDateFormatted, getCurrentTimeFormatted } from './../lib/helper';
 import { internalErrorCatcher } from "./logger.internal";
 import { randomUUID } from 'crypto';
-import { Response } from "express";
 import path from 'path';
 import fs from 'fs';
 
