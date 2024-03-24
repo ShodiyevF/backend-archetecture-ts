@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=production pm2 start dist/server.js --name project_name",
     "restart": "pm2 restart project_name",
     "delete": "pm2 delete project_name",
-    "build": "tsc",
+    "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "start:dev": "nodemon",
     "migration:generate": "dcross-env rizzle-kit generate:pg --schema=./src/database/schema.ts",
     "migration:push": "cross-env node -r esbuild-register src/database/pg.ts",
@@ -41,6 +41,7 @@
     "node-cron": "^3.0.3",
     "pg": "^8.11.3",
     "pm2": "^5.3.1",
-    "prettier": "^3.2.4"
+    "prettier": "^3.2.4",
+    "tscpaths": "^0.0.9"
   }
 }
