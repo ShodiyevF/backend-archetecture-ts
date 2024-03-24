@@ -19,11 +19,6 @@ function logFolderCreator() {
         fs.mkdirSync(path.join(process.cwd(), `/log/request`));
     }
 
-    const checkPsqlFolderIsExists = fs.existsSync(path.join(process.cwd(), `/log/psql`));
-    if (!checkPsqlFolderIsExists) {
-        fs.mkdirSync(path.join(process.cwd(), `/log/psql`));
-    }
-
     const checkCronFolderIsExists = fs.existsSync(path.join(process.cwd(), `/log/cronJob`));
     if (!checkCronFolderIsExists) {
         fs.mkdirSync(path.join(process.cwd(), `/log/cronJob`));
