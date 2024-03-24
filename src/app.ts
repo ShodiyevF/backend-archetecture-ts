@@ -23,12 +23,15 @@ export default function app(routes: []) {
     }
 
     function initMiddlewares() {
-        app.use(notFoundLogger);        
         app.use(logger);
         app.use(cors(CORS_OPTIONS));
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
         app.use(expressFileupload());        
+    }
+
+    function notFoundLogs() {
+        app.use(notFoundLogger);        
     }
 
     function initCronjobs() {
@@ -50,6 +53,7 @@ export default function app(routes: []) {
         initCronjobs();
         initMiddlewares();
         initRoutes(routes);
+        notFoundLogs()
         listener();
     }
 
