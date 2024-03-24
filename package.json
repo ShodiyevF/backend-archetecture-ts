@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2",
-    "restart": "pm2",
-    "delete": "pm2",
+    "start": "cross-env NODE_ENV=production pm2 start dist/server.js --name project_name",
+    "restart": "pm2 restart project_name",
+    "delete": "pm2 delete project_name",
     "build": "tsc",
-    "start:dev": "nodemon"
+    "start:dev": "nodemon",
+    "migration:generate": "dcross-env rizzle-kit generate:pg --schema=./src/database/schema.ts",
+    "migration:push": "cross-env node -r esbuild-register src/database/pg.ts",
+    "migration": "cross-env drizzle-kit generate:pg --schema=./src/database/schema.ts && node -r esbuild-register src/database/migration.ts"
   },
   "keywords": [],
   "author": "",
