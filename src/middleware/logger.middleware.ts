@@ -59,7 +59,6 @@ export async function notFoundLogger(req: Request, res: Response, next: NextFunc
 
         next()
     } catch (error) {
-        console.error('Error handling undefined route:', error);
         next(error);
     }
 }
