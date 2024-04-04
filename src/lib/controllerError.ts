@@ -1,5 +1,6 @@
 import { returnResponse } from "./express.function"
 import { Errors } from "./httpException"
+import redis from "@database/redis"
 import { Response } from "express"
 
 export function controllerError(res: Response, error: any) {
