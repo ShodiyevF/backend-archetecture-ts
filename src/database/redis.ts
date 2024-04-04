@@ -1,4 +1,4 @@
-import Redis, { Redis as RedisClient } from "ioredis";
+import Redis from "ioredis";
 
 const REDIS_PORT = process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 0
 const REDIS_DB = process.env.REDIS_DB ? parseInt(process.env.REDIS_DB) : 0
