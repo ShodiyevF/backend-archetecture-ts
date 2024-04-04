@@ -31,11 +31,12 @@
     "paths": {
       "*": ["node_modules/*"],
       "@config/*": ["src/config/*"],
+      "@database/*": ["src/database/*"],
       "@lib/*": ["src/lib/*"],
       "@middleware/*": ["src/middleware/*"],
       "@module/*": ["src/module/*"],
-      "@sharedLib/*": ["src/shared/lib/*"],
       "@shared/*": ["src/shared/*"],
+      "@sharedLib/*": ["src/shared/lib/*"],
       "@logger/*": ["src/shared/logger/*"],
       "@errorCatcher/*": ["src/shared/logger/logger.internal.js"]
     }
