@@ -1,4 +1,3 @@
-
 import internalErrorCatcher from "./logger.internal";
 import LoggerQueries from "./logger.query";
 

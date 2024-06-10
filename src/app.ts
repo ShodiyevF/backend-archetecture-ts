@@ -5,9 +5,9 @@ import expressFileupload from 'express-fileupload'
 import express, { Application } from 'express'
 import cors from 'cors'
 
-import { logger, notFoundLogger } from '@middleware/logger.middleware';
-import { runConfigCronJobs } from '@config/cronjobs.config';
-import { initDefaultFolders } from '@config/defaultfiles';
+import LoggerMiddleware from '@middleware/logger.middleware';
+import runConfigCronJobs from '@config/cronjobs.config';
+import initDefaultFolders from '@config/defaultfiles';
 import CORS_OPTIONS from '@config/cors';
 
 export default function app(routes: []) {
@@ -24,7 +24,7 @@ export default function app(routes: []) {
     }
 
     function initMiddlewares() {
-        app.use(logger);
+        app.use(LoggerMiddleware.logger);
         app.use(cors(CORS_OPTIONS));
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
@@ -32,7 +32,7 @@ export default function app(routes: []) {
     }
 
     function notFoundLogs() {
-        app.use(notFoundLogger);        
+        app.use(LoggerMiddleware.notFoundLogger);        
     }
 
     function initCronjobs() {

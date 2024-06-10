@@ -1,22 +1,22 @@
-import { Request, Response, NextFunction } from "express";
+import express from "express";
 
 import internalErrorCatcher from "@shared/logger/logger.internal";
-import { returnResponse } from "@lib/express.function";
 import Validation from "@shared/validation/validation";
-import { Errors } from "@lib/httpException";
+import returnResponse from "@lib/express.function";
+import Exception from "@lib/httpException";
 
-interface CustomRequest extends Request {
+interface CustomRequest extends express.Request {
     [key: string]: any;
 }
 
 export default function validationMiddleware(dto: Validation.DTO, value: string ) {
-    return (req: CustomRequest, res: Response, next: NextFunction) => {
+    return (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
         try {
             const validatorResponse = Validation.validator(dto, req[value]);
             if (validatorResponse.status == 200) {
                 return next();
             } else {
-                return returnResponse(res, 403, validatorResponse.error || 'error', Errors.VALIDATION_ERROR);
+                return returnResponse(res, 403, validatorResponse.error || 'error', Exception.Errors.VALIDATION_ERROR);
             }
         } catch (error) {
             internalErrorCatcher(error)
