@@ -6,7 +6,6 @@ function initDefaultFolders() {
     if (!UPLOAD_FOLDER) {
         fs.mkdirSync(path.join(process.cwd(), '/upload'));
     }
-
 }
 
 export {

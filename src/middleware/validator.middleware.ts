@@ -1,6 +1,7 @@
-import { internalErrorCatcher } from "@logger/logger.internal";
-import { DTO, validator } from "@shared/validation/validation";
 import { Request, Response, NextFunction } from "express";
+
+import internalErrorCatcher from "@shared/logger/logger.internal";
+import { DTO, validator } from "@shared/validation/validation";
 import { returnResponse } from "@lib/express.function";
 import { Errors } from "@lib/httpException";
 

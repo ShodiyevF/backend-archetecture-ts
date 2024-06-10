@@ -1,4 +1,4 @@
-import { internalErrorCatcher } from "@logger/logger.internal";
+import internalErrorCatcher from "@shared/logger/logger.internal";
 
 interface ValidationRule {
     required?: boolean;
