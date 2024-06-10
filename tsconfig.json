@@ -29,7 +29,6 @@
     "noFallthroughCasesInSwitch": true,
     "strictPropertyInitialization": false,
     "paths": {
-      "*": ["node_modules/*"],
       "@config/*": ["src/config/*"],
       "@database/*": ["src/database/*"],
       "@lib/*": ["src/lib/*"],
