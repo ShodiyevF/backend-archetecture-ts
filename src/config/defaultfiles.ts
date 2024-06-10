@@ -8,6 +8,4 @@ function initDefaultFolders() {
     }
 }
 
-export {
-    initDefaultFolders,
-};
+export default initDefaultFolders
