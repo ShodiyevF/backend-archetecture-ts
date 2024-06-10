@@ -1,9 +1,12 @@
-import logCronJob from '@shared/logger/logger.cronjob'
-import cron, { ScheduledTask } from 'node-cron'
+import cron from 'node-cron'
 
-export function newCronJob(jobName: string, schedule: string, job: Function): ScheduledTask {
+import logCronJob from '@shared/logger/logger.cronjob'
+
+function newCronJob(jobName: string, schedule: string, job: Function): cron.ScheduledTask {
     return cron.schedule(schedule, () => {
         logCronJob(jobName)
         job()
     })
 }
+
+export default newCronJob

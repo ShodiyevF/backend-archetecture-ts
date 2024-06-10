@@ -1,10 +1,13 @@
-import { Errors } from "./httpException";
-import { Response } from "express";
+import express from "express";
 
-export function returnResponse(res: Response, status: number, message: string, error: Errors) {
+import Exception from "./httpException";
+
+function returnResponse(res: express.Response, status: number, message: string, error: Exception.Errors) {
     return res.status(status).json({
         status,
         message,
         error,
     });
 }
+
+export default returnResponse
