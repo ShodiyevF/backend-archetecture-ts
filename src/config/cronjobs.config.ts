@@ -1,2 +1,4 @@
-export function runConfigCronJobs() {
+function runConfigCronJobs() {
 }
+
+export default runConfigCronJobs
