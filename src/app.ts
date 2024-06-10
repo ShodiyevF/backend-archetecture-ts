@@ -2,16 +2,17 @@ import dotnev from 'dotenv'
 dotnev.config({ path: `.env` });
 
 import expressFileupload from 'express-fileupload'
-import express, { Application } from 'express'
+import express from 'express'
 import cors from 'cors'
 
 import LoggerMiddleware from '@middleware/logger.middleware';
 import runConfigCronJobs from '@config/cronjobs.config';
 import initDefaultFolders from '@config/defaultfiles';
+import ExpressFunctions from '@lib/express.function';
 import CORS_OPTIONS from '@config/cors';
 
 export default function app(routes: []) {
-    const app: Application = express();
+    const app: express.Application = express();
     const port: string = process.env.PORT || '3000';
 
     function listener() {
@@ -29,6 +30,10 @@ export default function app(routes: []) {
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
         app.use(expressFileupload());        
+    }
+
+    function initBadJsonHandler() {
+        ExpressFunctions.badJsonFormatHandler(app)
     }
 
     function notFoundLogs() {
@@ -53,6 +58,7 @@ export default function app(routes: []) {
         defaultFiles();
         initCronjobs();
         initMiddlewares();
+        initBadJsonHandler();
         initRoutes(routes);
         notFoundLogs()
         listener();

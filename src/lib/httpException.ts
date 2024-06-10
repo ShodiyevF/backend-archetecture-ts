@@ -9,6 +9,7 @@ namespace Exception {
         TOKEN_REVOKED = 'TOKEN_REVOKED',
         UNAUTHORIZED = 'UNAUTHORIZED',
         UPLOAD_ERROR = 'UPLOAD_ERROR',
+        BAD_JSON_FORMAT = 'BAD_JSON_FORMAT',
     };
     
     export class HttpException {
