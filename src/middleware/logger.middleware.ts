@@ -1,7 +1,7 @@
-import { internalErrorCatcher } from "@logger/logger.internal";
 import { Request, Response, NextFunction } from "express";
 import { logWriter } from "@logger/logger.request";
 import { Errors } from "@lib/httpException";
+import internalErrorCatcher from "@shared/logger/logger.internal";
 
 function writeLog(res: Response, req: Request, body: any) {
     logWriter(

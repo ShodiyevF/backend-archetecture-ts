@@ -1,4 +1,3 @@
-import { logFolderCreator, logFileCreator } from '@logger/logger.config';
 import path from 'path'
 import fs from 'fs'
 
@@ -8,8 +7,6 @@ function initDefaultFolders() {
         fs.mkdirSync(path.join(process.cwd(), '/upload'));
     }
 
-    logFolderCreator()
-    logFileCreator()
 }
 
 export {
