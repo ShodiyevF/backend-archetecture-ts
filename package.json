@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production pm2 start dist/server.js --name project_name",
-    "restart": "pm2 restart project_name",
-    "delete": "pm2 delete project_name",
+    "start": "dotenv -e .env -- cross-var pm2 start dist/server.js --name %PROJECT_NAME% && pm2 save",
+    "restart": "dotenv -e .env -- cross-var pm2 restart %PROJECT_NAME% && pm2 save",
+    "delete": "dotenv -e .env -- cross-var pm2 delete %PROJECT_NAME% && pm2 save --force",
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "start:dev": "nodemon",
     "migration:generate": "dcross-env rizzle-kit generate:pg --schema=./src/database/schema.ts",
@@ -33,7 +33,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.3.2",
+    "cross-var": "^1.1.0",
+    "dotenv": "^16.4.7",
     "drizzle-orm": "^0.30.4",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.3",
