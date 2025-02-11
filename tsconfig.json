@@ -32,6 +32,8 @@
       "@config/*": ["src/config/*"],
       "@database/*": ["src/database/*"],
       "@dto/*": ["src/dto/*"],
+      "@helper/*": ["src/helper/*"],
+      "@interface/*": ["src/interface/*"],
       "@lib/*": ["src/lib/*"],
       "@middleware/*": ["src/middleware/*"],
       "@module/*": ["src/module/*"],
