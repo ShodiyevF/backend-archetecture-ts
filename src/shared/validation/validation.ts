@@ -3,13 +3,14 @@ import internalErrorCatcher from "@shared/logger/logger.internal";
 namespace Validation {
 
     interface ValidationRule {
-        required?: boolean;
-        type?: string;
+        required: boolean;
+        type: 'string' | 'number' | 'boolean' | 'object' | 'undefined' | 'array';
         min?: number;
         max?: number;
         minLength?: number;
         maxLength?: number;
         pattern?: RegExp[];
+        enum?: any[];
         custom_validation?: [((value: any) => boolean), string];
     }
     
@@ -36,7 +37,13 @@ namespace Validation {
                     if (value === undefined || value === null || value === '') {
                         continue;
                     }
-    
+                    
+                    const numberTypeHandler = rules.type === 'number' && !isNaN(value) ? false : true
+                    
+                    if (numberTypeHandler && typeof value !== rules.type) {
+                        return { status: 400, error: `${key}: Expected type ${rules.type}, but got ${typeof value}` };
+                    }
+                    
                     if (rules.type === 'boolean') {   
                         if (value !== true && value !== false && value !== 'true' && value !== 'false') {
                             return { status: 400, error: `${key}: Expected type ${rules.type}, but got ${typeof value}` };
@@ -61,6 +68,12 @@ namespace Validation {
                             return { status: 400, error: `${key}: Length should be at most ${rules.maxLength} characters` };
                         }
                     }
+
+                    if (rules.type === 'array') {
+                        if (!Array.isArray(value)) {
+                            return { status: 400, error: `${key}: Expected type ${rules.type}, but got ${typeof value}` };
+                        }
+                    }
     
                     if (rules.pattern && rules.pattern.length && !rules.pattern[0].test(value)) {
                         return { status: 400, error: `${key}: Value does not match the required pattern ${rules.pattern[0]}` };
@@ -68,6 +81,13 @@ namespace Validation {
     
                     if (rules.custom_validation && !rules.custom_validation[0](value)) {
                         return { status: 400, error: `${key}: ${rules.custom_validation[1]}` };
+                    }
+                    
+                    if (rules.enum) {
+                        const checker = rules.enum.includes(value)
+                        if (!checker) {
+                            return { status: 400, error: `The entered value must match one of the specified values. Specified values: '${rules.enum.join(`', '`)}'` };
+                        }
                     }
                 }
             }
