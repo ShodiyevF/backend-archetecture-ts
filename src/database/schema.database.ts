@@ -1,4 +1,5 @@
 import { json, pgTable, smallint, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { Table } from "drizzle-orm";
 
 const requestTypes: [string, ...string[]] = [ "SUCCESS", "ERROR" ]
 
@@ -32,6 +33,10 @@ namespace DbTableSchema {
     export const requests = requestsLOGSTable
     export const internalErrors = internalErrorsLOGSTable
     export const cronJobs = cronJobsLOGSTable
+
+    export type InferSelectType<T extends Table> = T['_']['inferSelect'];
+    export type InferInsertType<T extends Table> = T['_']['inferInsert'];
+    export type InferUpdateType<T extends Table> = Partial<InferInsertType<T>>;
 }
 
 export default DbTableSchema
