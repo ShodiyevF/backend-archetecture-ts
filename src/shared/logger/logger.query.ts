@@ -1,6 +1,6 @@
-import DbTableSchema from "@database/schema";
+import DbTableSchema from "@database/schema.database";
 import LoggerDto from "./logger.dto";
-import { db } from "@database/pg";
+import { db } from "@database/pg.database";
 
 namespace LoggerQueries {
 
