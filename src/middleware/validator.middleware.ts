@@ -2,8 +2,8 @@ import express from "express";
 
 import internalErrorCatcher from "@shared/logger/logger.internal";
 import Validation from "@shared/validation/validation";
-import ExpressFunctions from "@lib/express.function";
-import Exception from "@lib/httpException";
+import ExpressFunctions from "@lib/express-functions.lib";
+import Exception from "@lib/http-exception.lib";
 
 interface CustomRequest extends express.Request {
     [key: string]: any;

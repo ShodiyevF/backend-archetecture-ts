@@ -1,6 +1,6 @@
 import express from "express";
 
-import Exception from "./httpException";
+import Exception from "./http-exception.lib";
 
 namespace ExpressFunctions  {
     export function returnResponse(res: express.Response, status: number, message: string, error: Exception.Errors) {
