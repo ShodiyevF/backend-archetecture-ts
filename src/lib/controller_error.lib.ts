@@ -1,7 +1,7 @@
 import express from "express"
 
-import ExpressFunctions from "./express-functions.lib"
-import Exception from "./http-exception.lib"
+import ExpressFunctions from "./express_functions.lib"
+import Exception from "./http_exception.lib"
 
 function controllerError(res: express.Response, error: any) {
     if (process.env.MODE == 'DEV' && !error.status) {

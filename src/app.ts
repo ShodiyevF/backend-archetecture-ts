@@ -7,8 +7,8 @@ import cors from 'cors'
 
 import LoggerMiddleware from '@middleware/logger.middleware';
 import runConfigCronJobs from '@config/cronjobs.config';
-import initDefaultFolders from '@config/default-files.config';
-import ExpressFunctions from '@lib/express-functions.lib';
+import initDefaultFolders from '@config/default_files.config';
+import ExpressFunctions from '@lib/express_functions.lib';
 import CORS_OPTIONS from '@config/cors.config';
 
 export default function app(routes: express.Router[]) {
