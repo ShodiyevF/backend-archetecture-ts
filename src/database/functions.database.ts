@@ -1,4 +1,4 @@
-import DrizzleOrm from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 import DatabaseInterface from "@interface/database.interface";
 import DbTableSchema from "./schema.database";
@@ -13,17 +13,15 @@ namespace DatabaseFunctions {
         } = payloads
         
         const table = DbTableSchema[tableName]
-
-        const conditions = Object.entries(filter).map(([key, value]) =>
-            DrizzleOrm.eq((table as any)[key], value)
-        )
-
+        
+        const conditions = Object.entries(filter).map(([key, value]) => eq((table as any)[key], value))
+        
         const result = await db.select()
         .from(table)
         .where(
-            DrizzleOrm.and(...conditions)
+            and(...conditions)
         )
-
+        
         const rows = result as DbTableSchema.InferSelectType<(typeof DbTableSchema)[T]>[]
         return rows[0]
     }
@@ -42,41 +40,79 @@ namespace DatabaseFunctions {
         const rows = result as DbTableSchema.InferSelectType<(typeof DbTableSchema)[T]>[]
         return rows[0]
     }
-
-    export async function update<T extends DatabaseInterface.TableNames>(payloads: DatabaseInterface.IUpdatePayloads<T>): Promise<DbTableSchema.InferSelectType<(typeof DbTableSchema)[T]>> {
+    
+    export async function bulkInsert<T extends DatabaseInterface.TableNames>(payloads: DatabaseInterface.IInsertBulkPayloads<T>): Promise<DbTableSchema.InferSelectType<(typeof DbTableSchema)[T]>[]> {
         const {
             tableName,
-            targetColumn,
-            targetValue,
+            data
+        } = payloads
+        
+        const table = DbTableSchema[tableName]
+        const result = await db.insert(table)
+        .values(data)
+        .returning()
+        
+        return result
+    }
+    
+    export async function update<T extends DatabaseInterface.TableNames>(payloads: DatabaseInterface.IUpdatePayloads<T>): Promise<DbTableSchema.InferSelectType<(typeof DbTableSchema)[T]>[]> {
+        const {
+            tableName,
+            targets,
             data,
         } = payloads
         
         const table = DbTableSchema[tableName] as any
+        
+        const conditions = []
+        
+        if (targets) {
+            for (const target of targets) {
+                conditions.push(
+                    eq((table as any)[target.targetColumn], target.targetValue)
+                )
+            }
+        }
+        
         const result = await db
         .update(table)
         .set(data)
-        .where(DrizzleOrm.eq(table[targetColumn], targetValue))
+        .where(
+            and(...conditions)
+        )
         .returning()
-
+        
         const rows = result as DbTableSchema.InferSelectType<(typeof DbTableSchema)[T]>[]
-        return rows[0]
+        return rows
     }
-
-    export async function remove<T extends DatabaseInterface.TableNames>(payloads: DatabaseInterface.IRemovePayloads<T>) {
+    
+    export async function remove<T extends DatabaseInterface.TableNames>(payloads: DatabaseInterface.IRemovePayloads<T>): Promise<DbTableSchema.InferSelectType<(typeof DbTableSchema)[T]>[]> {
         const {
             tableName,
-            targetColumn,
-            targetValue
+            targets,
         } = payloads
         
         const table = DbTableSchema[tableName] as any
+        
+        const conditions = []
+        
+        if (targets) {
+            for (const target of targets) {
+                conditions.push(eq((table as any)[target.targetColumn], target.targetValue))
+            }
+        }
+        
         const result = await db
         .delete(table)
-        .where(DrizzleOrm.eq(table[targetColumn], targetValue))
+        .where(
+            and(
+                ...conditions
+            )
+        )
         .returning()
-
+        
         const rows = result as DbTableSchema.InferSelectType<(typeof DbTableSchema)[T]>[]
-        return rows[0]
+        return rows
     }
     
 }
