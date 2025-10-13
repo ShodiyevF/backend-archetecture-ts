@@ -1,15 +1,15 @@
-import dotnev from 'dotenv'
-dotnev.config({ path: `.env` });
-
 import expressFileupload from 'express-fileupload'
 import express from 'express'
+import dotnev from 'dotenv'
 import cors from 'cors'
 
-import LoggerMiddleware from '@middleware/logger.middleware';
-import runConfigCronJobs from '@config/cronjobs.config';
 import initDefaultFolders from '@config/default_files.config';
+import LoggerMiddleware from '@middleware/logger.middleware';
 import ExpressFunctions from '@lib/express_functions.lib';
+import runConfigCronJobs from '@config/cronjobs.config';
 import CORS_OPTIONS from '@config/cors.config';
+
+dotnev.config();
 
 export default function app(routes: express.Router[]) {
     const app: express.Application = express();
