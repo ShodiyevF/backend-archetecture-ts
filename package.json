@@ -9,9 +9,9 @@
     "delete": "dotenv -e .env -- cross-var pm2 delete %PROJECT_NAME% && pm2 save --force",
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "start:dev": "nodemon",
-    "migration:generate": "cross-env rizzle-kit generate:pg --schema=./src/database/schema.ts",
-    "migration:push": "cross-env node -r esbuild-register src/database/pg.ts",
-    "migration": "cross-env drizzle-kit generate:pg --schema=./src/database/schema.ts && node -r esbuild-register src/database/migration.ts"
+    "migration:generate": "cross-env rizzle-kit generate:pg --schema=./src/database/schema.database.ts",
+    "migration:push": "cross-env node -r esbuild-register src/database/pg.database.ts",
+    "migration": "cross-env drizzle-kit generate:pg --schema=./src/database/schema.database.ts && node -r esbuild-register src/database/migration.database.ts"
   },
   "keywords": [],
   "author": "",
