@@ -8,4 +8,3 @@
 # FILES
 package-lock.json
 .env
-/src/types/env_variables.d.ts
