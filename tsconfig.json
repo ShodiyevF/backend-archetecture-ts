@@ -43,7 +43,7 @@
       "@logger/*": ["src/shared/logger/*"],
       "@errorCatcher/*": ["src/shared/logger/logger.internal.js"],
       "@util/*": ["src/util/*"],
-      "@customTypes/*": ["src/types/*"],
+      "@customTypes/*": ["src/types/*"]
     }
   },
   "include": ["src/**/*"],
