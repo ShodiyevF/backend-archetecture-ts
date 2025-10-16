@@ -1,6 +1,7 @@
 import express from "express";
 
 import Exception from "./http_exception.lib";
+import EnvLib from "./env.lib";
 
 namespace ExpressFunctions  {
     export function returnResponse(res: express.Response, status: number, message: string, error: Exception.Errors) {
@@ -18,7 +19,7 @@ namespace ExpressFunctions  {
     export function badJsonFormatHandler(app: express.Application) {
         app.use((err: SyntaxError, req: express.Request, res: express.Response, next: express.NextFunction) => {
             if (isSyntaxErrorWithStatus(err) && err.status === 400 && 'body' in err) {
-                if (process.env.MODE === 'DEV') {
+                if (EnvLib.getVariable('MODE') === 'DEV') {
                     console.error('Bad JSON format:', err.message);
                 }
                 return res.status(400).json({ 

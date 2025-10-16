@@ -1,14 +1,13 @@
 import Redis from "ioredis";
 
-const REDIS_PORT = process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 0
-const REDIS_DB = process.env.REDIS_DB ? parseInt(process.env.REDIS_DB) : 0
+import EnvLib from "@lib/env.lib";
 
 const redis = new Redis({
-    host: process.env.REDIS_HOST,
-    port: REDIS_PORT,
-    username: process.env.REDIS_USERNAME,
-    password: process.env.REDIS_PASSWORD,
-    db: REDIS_DB
+    host: EnvLib.getVariable('REDIS_HOST'),
+    port: +EnvLib.getVariable('REDIS_PORT'),
+    username: EnvLib.getVariable('REDIS_USERNAME'),
+    password: EnvLib.getVariable('REDIS_PASSWORD'),
+    db: +EnvLib.getVariable('REDIS_DB')
 })
 
 export default redis

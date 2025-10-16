@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken'
 
 import internalErrorCatcher from '@shared/logger/logger.internal';
+import EnvLib from './env.lib';
 
 namespace JWT {
 
-    const expiration = process.env.JWT_EXPIRATION ? +process.env.JWT_EXPIRATION : 0
-    const secretCode = process.env.JWT_SECRET ? process.env.JWT_SECRET : ''
+    const expiration = +EnvLib.getVariable('JWT_EXPIRATION')
+    const secretCode = EnvLib.getVariable('JWT_SECRET')
     
     export function requestJwtToken(payload: object) {
         try {

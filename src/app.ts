@@ -11,7 +11,7 @@ import EnvLib from '@lib/env.lib';
 
 export default function app(routes: express.Router[]) {
     const app: express.Application = express();
-    const port: string = process.env.PORT || '3000';
+    const port: string = EnvLib.getVariable('PORT');
 
     function initListener() {
         app.listen(port, () => {
