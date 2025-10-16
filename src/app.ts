@@ -1,21 +1,19 @@
 import expressFileupload from 'express-fileupload'
 import express from 'express'
-import dotnev from 'dotenv'
 import cors from 'cors'
 
-import initDefaultFolders from '@config/default_files.config';
 import LoggerMiddleware from '@middleware/logger.middleware';
 import ExpressFunctions from '@lib/express_functions.lib';
 import runConfigCronJobs from '@config/cronjobs.config';
 import CORS_OPTIONS from '@config/cors.config';
-
-dotnev.config();
+import FS from '@config/fs.config';
+import EnvLib from '@lib/env.lib';
 
 export default function app(routes: express.Router[]) {
     const app: express.Application = express();
     const port: string = process.env.PORT || '3000';
 
-    function listener() {
+    function initListener() {
         app.listen(port, () => {
             console.info('=================================');
             console.info(`======== ENV: production ========`);
@@ -36,7 +34,7 @@ export default function app(routes: express.Router[]) {
         ExpressFunctions.badJsonFormatHandler(app)
     }
 
-    function notFoundLogs() {
+    function initNotFoundLogs() {
         app.use(LoggerMiddleware.notFoundLogger);        
     }
 
@@ -44,8 +42,13 @@ export default function app(routes: express.Router[]) {
         runConfigCronJobs();
     }
 
-    function defaultFiles() {
-        initDefaultFolders();
+    function initDefaultFiles() {
+        FS.runner()
+    }
+
+    function initEnvConfig() {
+        EnvLib.checkExists();
+        EnvLib.checkVariables();
     }
 
     function initRoutes(routes: express.Router[]) {
@@ -55,13 +58,14 @@ export default function app(routes: express.Router[]) {
     }
 
     async function runner() {
-        defaultFiles();
+        initEnvConfig();
+        initDefaultFiles();
         initCronjobs();
         initMiddlewares();
         initBadJsonHandler();
         initRoutes(routes);
-        notFoundLogs()
-        listener();
+        initNotFoundLogs();
+        initListener();
     }
 
     runner();
