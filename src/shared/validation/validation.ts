@@ -26,7 +26,7 @@ namespace Validation {
                     const numberTypeHandler = rules.type === 'number' ? !BuildInSharedHelper.isNumber(value) : null
                     const objectTypeHandler = rules.type === 'object' ? !BuildInSharedHelper.isObject(value) : null
                     const booleanTypeHandler = rules.type === 'boolean' ? !BuildInSharedHelper.isBoolean(value) : null
-                    const arrayTypeHandler = rules.type === 'boolean' ? !BuildInSharedHelper.isArray(value) : null
+                    const arrayTypeHandler = rules.type === 'array' ? !BuildInSharedHelper.isArray(value) : null
                     
                     const checkType = stringTypeHandler || numberTypeHandler || objectTypeHandler || booleanTypeHandler || arrayTypeHandler
                     
