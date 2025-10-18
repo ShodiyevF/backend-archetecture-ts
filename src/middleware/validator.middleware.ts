@@ -1,7 +1,7 @@
 import express from "express";
 
+import ValidationInterface from "@shared/validation/validation.interface";
 import internalErrorCatcher from "@shared/logger/logger.internal";
-import ValidationInterface from "@interface/validation.interface";
 import ExpressFunctions from "@lib/express_functions.lib";
 import Validation from "@shared/validation/validation";
 import Exception from "@lib/http_exception.lib";

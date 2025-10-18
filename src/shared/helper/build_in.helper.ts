@@ -1,4 +1,4 @@
-namespace UsefulFunctionsHelper {
+namespace BuildInSharedHelper {
     
     export function isString(value: any) {
         return typeof value === 'string' || value instanceof String;
@@ -40,4 +40,4 @@ namespace UsefulFunctionsHelper {
     
 }
 
-export default UsefulFunctionsHelper
+export default BuildInSharedHelper

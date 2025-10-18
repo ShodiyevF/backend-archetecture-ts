@@ -1,5 +1,5 @@
-import UsefulFunctionsHelper from "@helper/useful_functions.helper";
-import ValidationInterface from "@interface/validation.interface";
+import ValidationInterface from "@shared/validation/validation.interface";
+import UsefulFunctionsHelper from "@shared/helper/build_in.helper";
 import internalErrorCatcher from "@shared/logger/logger.internal";
 
 namespace Validation {
