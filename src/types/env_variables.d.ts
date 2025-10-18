@@ -9,11 +9,11 @@ export type EnvVariables =
   | "CREDENTIALS"
   | "REDIS_HOST"
   | "REDIS_PORT"
-  | "REDIS_USERNAME"
+  | "REDIS_USER"
   | "REDIS_PASSWORD"
   | "REDIS_DB"
+  | "DB_HOST"
+  | "DB_PORT"
   | "DB_USER"
   | "DB_PASSWORD"
-  | "DB_NAME"
-  | "DB_HOST"
-  | "DB_PORT";
+  | "DB_NAME";
