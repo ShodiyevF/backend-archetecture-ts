@@ -1,6 +1,6 @@
 import ValidationInterface from "@shared/validation/validation.interface";
-import BuildInSharedHelper from "@shared/helper/build_in.helper";
 import internalErrorCatcher from "@shared/logger/logger.internal";
+import BuildInSharedHelper from "@shared/helper/build_in.helper";
 
 namespace Validation {
 
