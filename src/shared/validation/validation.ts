@@ -1,5 +1,5 @@
 import ValidationInterface from "@shared/validation/validation.interface";
-import UsefulFunctionsHelper from "@shared/helper/build_in.helper";
+import BuildInSharedHelper from "@shared/helper/build_in.helper";
 import internalErrorCatcher from "@shared/logger/logger.internal";
 
 namespace Validation {
@@ -22,11 +22,11 @@ namespace Validation {
                         continue;
                     }
 
-                    const stringTypeHandler = rules.type === 'string' ? !UsefulFunctionsHelper.isString(value) : null
-                    const numberTypeHandler = rules.type === 'number' ? !UsefulFunctionsHelper.isNumber(value) : null
-                    const objectTypeHandler = rules.type === 'object' ? !UsefulFunctionsHelper.isObject(value) : null
-                    const booleanTypeHandler = rules.type === 'boolean' ? !UsefulFunctionsHelper.isBoolean(value) : null
-                    const arrayTypeHandler = rules.type === 'boolean' ? !UsefulFunctionsHelper.isArray(value) : null
+                    const stringTypeHandler = rules.type === 'string' ? !BuildInSharedHelper.isString(value) : null
+                    const numberTypeHandler = rules.type === 'number' ? !BuildInSharedHelper.isNumber(value) : null
+                    const objectTypeHandler = rules.type === 'object' ? !BuildInSharedHelper.isObject(value) : null
+                    const booleanTypeHandler = rules.type === 'boolean' ? !BuildInSharedHelper.isBoolean(value) : null
+                    const arrayTypeHandler = rules.type === 'boolean' ? !BuildInSharedHelper.isArray(value) : null
                     
                     const checkType = stringTypeHandler || numberTypeHandler || objectTypeHandler || booleanTypeHandler || arrayTypeHandler
                     
@@ -35,7 +35,7 @@ namespace Validation {
                     }
                     
                     if (rules.type === 'boolean') {
-                        if (!UsefulFunctionsHelper.isBoolean(value)) {
+                        if (!BuildInSharedHelper.isBoolean(value)) {
                             return { status: 400, error: `${key}: Expected type ${rules.type}, but got ${typeof value}` };
                         }
                     }
@@ -91,30 +91,30 @@ namespace Validation {
                             return { status: 400, error: `${key}: Expected type ${rules.type}, but got ${typeof value}` };
                         }
 
-                        const stringTypeHandler = rules.element_type === 'string' ? !value.every(element => UsefulFunctionsHelper.isString(element)) : null
-                        const numberTypeHandler = rules.element_type === 'number' ? !value.every(element => UsefulFunctionsHelper.isNumber(element)) : null
-                        const objectTypeHandler = rules.element_type === 'object' ? !value.every(element => UsefulFunctionsHelper.isObject(element)) : null
-                        const booleanTypeHandler = rules.element_type === 'boolean' ? !value.every(element => UsefulFunctionsHelper.isBoolean(element)) : null
+                        const stringTypeHandler = rules.element_type === 'string' ? !value.every(element => BuildInSharedHelper.isString(element)) : null
+                        const numberTypeHandler = rules.element_type === 'number' ? !value.every(element => BuildInSharedHelper.isNumber(element)) : null
+                        const objectTypeHandler = rules.element_type === 'object' ? !value.every(element => BuildInSharedHelper.isObject(element)) : null
+                        const booleanTypeHandler = rules.element_type === 'boolean' ? !value.every(element => BuildInSharedHelper.isBoolean(element)) : null
                         const checkType = stringTypeHandler || numberTypeHandler || objectTypeHandler || booleanTypeHandler
                         
                         if (checkType) {
-                            const stringBadValue = rules.element_type === 'string' ? value.find(element => UsefulFunctionsHelper.isString(element)) : NOT_FOUND
-                            const numberBadValue = rules.element_type === 'number' ? value.find(element => !UsefulFunctionsHelper.isNumber(element)) : NOT_FOUND
-                            const objectBadValue = rules.element_type === 'object' ? value.find(element => !UsefulFunctionsHelper.isObject(element)) : NOT_FOUND
-                            const booleanBadValue = rules.element_type === 'boolean' ? value.find(element => !UsefulFunctionsHelper.isBoolean(element)) : NOT_FOUND
+                            const stringBadValue = rules.element_type === 'string' ? value.find(element => BuildInSharedHelper.isString(element)) : NOT_FOUND
+                            const numberBadValue = rules.element_type === 'number' ? value.find(element => !BuildInSharedHelper.isNumber(element)) : NOT_FOUND
+                            const objectBadValue = rules.element_type === 'object' ? value.find(element => !BuildInSharedHelper.isObject(element)) : NOT_FOUND
+                            const booleanBadValue = rules.element_type === 'boolean' ? value.find(element => !BuildInSharedHelper.isBoolean(element)) : NOT_FOUND
                             const badValues = [stringBadValue, numberBadValue, objectBadValue, booleanBadValue]
                             const badValue = badValues.find(value => value !== NOT_FOUND)
                             
                             const returnBadValue = typeof badValue === 'object' ? JSON.stringify(badValue) : badValue
                             
-                            const getBadObjectType = typeof badValue === 'object' ? UsefulFunctionsHelper.getObjectOriginalType(badValue) : null
+                            const getBadObjectType = typeof badValue === 'object' ? BuildInSharedHelper.getObjectOriginalType(badValue) : null
                             const badValueType = getBadObjectType || typeof badValue
                             
                             return { status: 400, error: `${key} child ${returnBadValue}: Expected type ${rules.element_type}, but got ${badValueType}` };
                         }
 
                         if (rules.element_type === 'boolean') {
-                            const checkElementBoolean = value.find(element => !UsefulFunctionsHelper.isBoolean(element))
+                            const checkElementBoolean = value.find(element => !BuildInSharedHelper.isBoolean(element))
                             if (checkElementBoolean) {
                                 return { status: 400, error: `${key} child ${checkElementBoolean}: Expected type ${rules.element_type}, but got ${typeof checkElementBoolean}` };
                             }
