@@ -33,8 +33,11 @@ namespace ExpressFunctions  {
     }
     
     export function controllerError(res: express.Response, error: any) {
-        if (EnvLib.getVariable('MODE') == 'DEV' && !error.status) {
+        if (EnvLib.getVariable('MODE') == 'DEV') {
             console.log(error)
+        }
+        
+        if (!error.status) {
             return ExpressFunctions.returnResponse(res, 500, `INTERNAL ERROR: ${error}`, Exception.Errors.INTERNAL_SERVER_ERROR)
         } else {
             return ExpressFunctions.returnResponse(res, error.status, error.message, error.error)

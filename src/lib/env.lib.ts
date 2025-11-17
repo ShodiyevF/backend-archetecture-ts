@@ -6,6 +6,8 @@ import type { EnvVariables } from "@customTypes/env_variables";
 const envExample = dotenv.config({ path: '.env.example' });
 const env = dotenv.config({ path: '.env' });
 
+const envs: Record<string, string> = {};
+
 namespace EnvLib {
 
     export function checkExists() {
@@ -35,7 +37,7 @@ namespace EnvLib {
 
     export function checkVariables() {
         const envExampleVariables = Object.keys(envExample.parsed!)
-        const envVariables = Object.keys(env.parsed!)
+        const envVariables = Object.keys(envs!)
 
         const notExistVariables = envExampleVariables.filter(data => !envVariables.includes(data))
         if (notExistVariables.length) {
@@ -57,7 +59,7 @@ namespace EnvLib {
             return process.exit(1)
         }
 
-        const checkVariablesValue = Object.entries(env.parsed!).filter(([key, value]) => !value)
+        const checkVariablesValue = Object.entries(envs!).filter(([key, value]) => !value)
         if (checkVariablesValue.length) {
             console.warn('=================================');
             console.warn(`=========== ENV ERROR ===========`);
@@ -70,12 +72,26 @@ namespace EnvLib {
         return 'ALL_CORRECT'
     }
 
+    export function syncVariables() {
+        const envVariables = Object.keys(env.parsed!)
+        
+        for (const envVariable of envVariables) {
+            if (process.env[envVariable] !== undefined) {
+                envs[envVariable] = process.env[envVariable]!;
+            } else {
+                envs[envVariable] = env.parsed![envVariable];
+            }
+        }
+    }
+
     export function getVariable(variableName: EnvVariables) {
-        const envVariables = Object.entries(env.parsed!).find(([key, name]) => key === variableName)
+        const envVariables = Object.entries(envs!).find(([key, name]) => key === variableName)
         
         return envVariables![1]
     }
     
 }
+
+EnvLib.syncVariables()
 
 export default EnvLib
