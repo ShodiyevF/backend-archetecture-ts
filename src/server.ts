@@ -1,5 +1,5 @@
 import app from './app'
 
-// const users = require('./module/users/users.index');
+// import users from './module/users/users.index'
 
 app([]);
