@@ -10,7 +10,7 @@ interface CustomRequest extends express.Request {
     [key: string]: any;
 }
 
-export default function validationMiddleware(dto: ValidationInterface.DTO, value: string ) {
+export default function validationMiddleware(dto: ValidationInterface.DTO, value: 'body' | 'query' | 'params') {
     return (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
         try {
             const validatorResponse = Validation.validator(dto, req[value]);
