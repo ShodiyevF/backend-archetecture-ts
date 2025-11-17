@@ -1,15 +1,53 @@
 namespace Exception {
 
     export enum Errors {
-        INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
-        VALIDATION_ERROR = 'VALIDATION_ERROR',
-        FORBIDDEN_ERROR = 'FORBIDDEN_ERROR',
-        BAD_JSON_FORMAT = 'BAD_JSON_FORMAT',
-        INVALID_TOKEN = 'INVALID_TOKEN',
-        TOKEN_EXPIRED = 'TOKEN_EXPIRED',
-        TOKEN_REVOKED = 'TOKEN_REVOKED',
-        UNAUTHORIZED = 'UNAUTHORIZED',
-        UPLOAD_ERROR = 'UPLOAD_ERROR',
+
+        //! ALREADY_EXISTS_START
+
+
+
+        //! ALREADY_EXISTS_END
+
+
+        //! NOT_FOUND_START
+
+
+
+        //! NOT_FOUND_END
+        
+        
+        //! VALIDATION_ERROR_START
+        
+            FILE_VALIDATION_ERROR = 'FILE_VALIDATION_ERROR',
+            VALIDATION_ERROR = 'VALIDATION_ERROR',
+
+        //! VALIDATION_ERROR_END
+
+
+        //! AUTHORIZATION_ERROR_START
+        
+            AUTHORIZATION_ERROR = 'AUTHORIZATION_ERROR',
+
+        //! AUTHORIZATION_ERROR_END
+
+        
+        //! SERVER_CONFIG_START
+
+            INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
+            BAD_JSON_FORMAT = 'BAD_JSON_FORMAT',
+            INVALID_TOKEN = 'INVALID_TOKEN',
+            TOKEN_EXPIRED = 'TOKEN_EXPIRED',
+            TOKEN_REVOKED = 'TOKEN_REVOKED',
+            
+        //! SERVER_CONFIG_END
+        
+        
+        //! BAD_VALUES_START
+            
+            UPLOAD_ERROR = 'UPLOAD_ERROR',
+        
+        //! BAD_VALUES_END
+        
     };
     
     export class HttpException {
