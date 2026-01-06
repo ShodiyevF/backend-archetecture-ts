@@ -5,53 +5,67 @@ import EnvLib from './env.lib';
 
 namespace JwtLib {
 
-    interface VerifiedToken<T> {
-        result: 'VERIFIED';
-        data: T;
+    export interface IJwtSuccessReturn<T> {
+        result: 'SUCCESS';
+        data?: T;
     }
-    
-    interface UnverifiedToken {
-        result: 'UNVERIFIED' | 'EXPIRED' | 'BAD_TOKEN';
+
+    export interface IJwtErrorReturn {
+        result: 'UNVERIFIED' | 'EXPIRED' | 'ERROR';
+        message?: string;
     }
-    
-    export type IVerifyJwtToken<T> = VerifiedToken<T> | UnverifiedToken;
+
+    export type TJwtReturn<T> = IJwtSuccessReturn<T> | IJwtErrorReturn
 
     const expiration = +EnvLib.getVariable('JWT_EXPIRATION')
     const secretCode = EnvLib.getVariable('JWT_SECRET')
     
-    export function requestJwtToken(payload: object) {
+    export function generateToken(payload: object): TJwtReturn<string> {
         try {
             const token = jwt.sign(payload, secretCode, {
                 expiresIn: expiration,
+                algorithm: 'RS256'
             });
-            return token;
-        } catch (error) {
+
+            return {
+                result: 'SUCCESS',
+                data: token
+            };
+        } catch (error: any) {
             internalErrorCatcher(error);
+
+            return {
+                result: 'ERROR',
+                message: error.message ? error.message : error.name
+            }
         }
     }
     
-    export function verifyJwtToken(token: string): IVerifyJwtToken<any> {
+    export function verifyToken<T extends jwt.JwtPayload>(token: string): TJwtReturn<T> {
         try {
             const verifed = jwt.verify(token, secretCode);
             if (typeof verifed != 'object') {
                 return {
                     result: 'UNVERIFIED',
+                    message: 'Token unverified'
                 }
             }
             
             return {
-                result: 'VERIFIED',
-                data: verifed
+                result: 'SUCCESS',
+                data: verifed as T
             };
         } catch (error: any) {
             if (error.name === 'TokenExpiredError') {
                 return {
-                    result: 'EXPIRED'
+                    result: 'EXPIRED',
+                    message: 'Token expired'
                 }
             }
             
             return {
-                result: 'BAD_TOKEN'
+                result: 'ERROR',
+                message: error.message ? error.message : error.name
             }
         }
     }
