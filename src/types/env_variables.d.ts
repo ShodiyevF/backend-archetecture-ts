@@ -3,7 +3,6 @@ export type EnvVariables =
   | "MODE"
   | "DOMAIN"
   | "PROJECT_NAME"
-  | "JWT_SECRET"
   | "JWT_EXPIRATION"
   | "ORIGIN"
   | "CREDENTIALS"
