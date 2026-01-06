@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken'
+import fs from 'fs';
 
 import internalErrorCatcher from '@shared/logger/logger.internal';
+import FS from '@config/fs.config';
 import EnvLib from './env.lib';
 
 namespace JwtLib {
@@ -17,12 +19,14 @@ namespace JwtLib {
 
     export type TJwtReturn<T> = IJwtSuccessReturn<T> | IJwtErrorReturn
 
+    const PRIVATE_KEY = fs.readFileSync(FS.StaticPaths.accessPrivateKey, 'utf8');
+    const PUBLIC_KEY = fs.readFileSync(FS.StaticPaths.accessPublicKey, 'utf8');
+
     const expiration = +EnvLib.getVariable('JWT_EXPIRATION')
-    const secretCode = EnvLib.getVariable('JWT_SECRET')
     
     export function generateToken(payload: object): TJwtReturn<string> {
         try {
-            const token = jwt.sign(payload, secretCode, {
+            const token = jwt.sign(payload, PRIVATE_KEY, {
                 expiresIn: expiration,
                 algorithm: 'RS256'
             });
@@ -43,13 +47,9 @@ namespace JwtLib {
     
     export function verifyToken<T extends jwt.JwtPayload>(token: string): TJwtReturn<T> {
         try {
-            const verifed = jwt.verify(token, secretCode);
-            if (typeof verifed != 'object') {
-                return {
-                    result: 'UNVERIFIED',
-                    message: 'Token unverified'
-                }
-            }
+            const verifed = jwt.verify(token, PUBLIC_KEY, {
+                algorithms: ['RS256']
+            });
             
             return {
                 result: 'SUCCESS',
