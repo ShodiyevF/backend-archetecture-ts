@@ -7,7 +7,7 @@ namespace ValidationInterface {
         max_length?: number;
         pattern?: RegExp;
         enum?: any[];
-        custom_validation?: CustomValidation;
+        custom_validation?: TCustomValidation;
     }
 
     interface INumberType {
@@ -17,7 +17,7 @@ namespace ValidationInterface {
         max?: number;
         pattern?: RegExp;
         enum?: any[];
-        custom_validation?: CustomValidation;
+        custom_validation?: TCustomValidation;
     }
 
     interface IBooleanType {
@@ -29,57 +29,72 @@ namespace ValidationInterface {
         required: boolean;
         type: 'object';
         dto?: DTO;
+        custom_validation?: TCustomValidation;
     }
 
-    interface IArrayElementStringType {
+    interface IArrayType {
         required: boolean;
         type: 'array';
+        elements_min_length?: number;
+        elements_max_length?: number;
+        custom_validation?: TCustomValidation;
+        element_type: 'string' | 'number' | 'boolean' | 'object';
+    }
+
+    interface IArrayElementStringType extends IArrayType {
         element_type: 'string';
         element_min_length?: number;
         element_max_length?: number;
         element_pattern?: RegExp;
         element_enum?: any[];
-        element_custom_validation?: CustomValidation;
+        element_custom_validation?: TCustomValidation;
     }
 
-    interface IArrayElementNumberType {
-        required: boolean;
-        type: 'array';
+    interface IArrayElementNumberType extends IArrayType {
         element_type: 'number';
         element_min?: number;
         element_max?: number;
         element_pattern?: RegExp;
         element_enum?: any[];
-        element_custom_validation?: CustomValidation;
+        element_custom_validation?: TCustomValidation;
     }
 
-    interface IArrayElementBooleanType {
-        required: boolean;
-        type: 'array';
+    interface IArrayElementBooleanType extends IArrayType {
         element_type: 'boolean';
     }
 
-    interface IArrayElementObjectType {
-        required: boolean;
-        type: 'array';
+    interface IArrayElementObjectType extends IArrayType {
         element_type: 'object';
         element_dto?: DTO;
+        element_custom_validation?: TCustomValidation;
     }
 
-    type IArrayType = IArrayElementStringType | IArrayElementNumberType | IArrayElementBooleanType | IArrayElementObjectType
+    type TArrayType = IArrayElementStringType | IArrayElementNumberType | IArrayElementBooleanType | IArrayElementObjectType
 
-    type ValidationRule = IStringType | INumberType | IBooleanType | IObjectType | IArrayType
+    type TValidationRule = IStringType | INumberType | IBooleanType | IObjectType | TArrayType
     
-    type CustomValidation = [(value: any) => boolean, string];
+    type CustomValidationReturn = {
+        error: true;
+        message: string;
+    } | {
+        error: false;
+    }
+    type TCustomValidation = (value: any) => CustomValidationReturn;
     
     export interface DTO {
-        [key: string]: ValidationRule;
+        [key: string]: TValidationRule;
     }
     
-    export interface ValidationResult {
-        status: number;
-        error?: string;
+    export interface IValidationSuccessResult {
+        status: 200;
     }
+    
+    export interface IValidationErrorResult {
+        status: 400;
+        error: string;
+    }
+    
+    export type TValidationResult = IValidationSuccessResult | IValidationErrorResult
     
 }
 
