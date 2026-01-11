@@ -37,6 +37,14 @@ namespace BuildInSharedHelper {
     export function getObjectOriginalType(value: unknown): string {
         return Object.prototype.toString.call(value).slice(8, -1);
     }
+
+    export function getErrorLine(error: any) {
+        const stackLines = error.stack.split('\n');
+        if (stackLines && stackLines.length >= 2) {
+            const line = stackLines[1].trim();
+            return line;
+        }
+    }
     
 }
 

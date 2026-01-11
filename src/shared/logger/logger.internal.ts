@@ -1,8 +1,8 @@
+import BuildInSharedHelper from '@shared/helper/build_in.helper';
 import DatabaseFunctions from '@database/functions.database';
-import LoggerLib from '@sharedLib/helper';
 
 async function internalErrorCatcher(error: any): Promise<void>{
-    const errorFile = LoggerLib.getErrorLine(error);
+    const errorFile = BuildInSharedHelper.getErrorLine(error);
     
     await DatabaseFunctions.insert({
         tableName: 'internalErrorsLOGS',
