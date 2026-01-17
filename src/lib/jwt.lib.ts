@@ -9,7 +9,7 @@ namespace JwtLib {
 
     export interface IJwtSuccessReturn<T> {
         result: 'SUCCESS';
-        data?: T;
+        data: T;
     }
 
     export interface IJwtErrorReturn {
@@ -19,13 +19,12 @@ namespace JwtLib {
 
     export type TJwtReturn<T> = IJwtSuccessReturn<T> | IJwtErrorReturn
 
-    const PRIVATE_KEY = fs.readFileSync(FS.StaticPaths.accessPrivateKey, 'utf8');
-    const PUBLIC_KEY = fs.readFileSync(FS.StaticPaths.accessPublicKey, 'utf8');
-
     const expiration = +EnvLib.getVariable('JWT_EXPIRATION')
     
     export function generateToken(payload: object): TJwtReturn<string> {
         try {
+            const PRIVATE_KEY = fs.readFileSync(FS.StaticPaths.accessPrivateKey, 'utf8');
+
             const token = jwt.sign(payload, PRIVATE_KEY, {
                 expiresIn: expiration,
                 algorithm: 'RS256'
@@ -47,6 +46,8 @@ namespace JwtLib {
     
     export function verifyToken<T extends jwt.JwtPayload>(token: string): TJwtReturn<T> {
         try {
+            const PUBLIC_KEY = fs.readFileSync(FS.StaticPaths.accessPublicKey, 'utf8');
+            
             const verifed = jwt.verify(token, PUBLIC_KEY, {
                 algorithms: ['RS256']
             });
