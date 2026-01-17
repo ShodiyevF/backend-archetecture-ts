@@ -4,17 +4,24 @@ import fs from 'fs'
 
 namespace FS {
     export namespace StaticPaths {
-        export const uploadsFolder = path.join(process.cwd(), '/upload')
+        export const uploadsFolder = path.join(process.cwd(), 'upload')
 
-        export const accessPrivateKey = path.join(process.cwd(), '/src/keys/access.private.key')
+        export const keyFolder = path.join(process.cwd(), 'src', 'key')
 
-        export const accessPublicKey = path.join(process.cwd(), '/src/keys/access.public.key')
+        export const accessPrivateKey = path.join(keyFolder, 'access.private.key')
+
+        export const accessPublicKey = path.join(keyFolder, 'access.public.key')
     }
     
     export function initDefaultFolders() {
         const UPLOAD_FOLDER = fs.existsSync(StaticPaths.uploadsFolder);
         if (!UPLOAD_FOLDER) {
             fs.mkdirSync(StaticPaths.uploadsFolder);
+        }
+
+        const KEY_FOLDER = fs.existsSync(StaticPaths.keyFolder);
+        if (!KEY_FOLDER) {
+            fs.mkdirSync(StaticPaths.keyFolder);
         }
     }
     
