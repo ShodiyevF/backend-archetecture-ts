@@ -8,4 +8,4 @@
 # FILES
 package-lock.json
 .env
-src/keys/*.key
+src/key/*.key
