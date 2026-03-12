@@ -40,6 +40,8 @@ namespace DatabaseInterface {
         }[]
     }
     
+    export type ICheckDbStatReturn = 'MODIFICATED' | 'UNMODIFICATED'
+    
 }
 
 export default DatabaseInterface
