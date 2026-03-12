@@ -25,7 +25,7 @@
     "strictNullChecks": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
-    "noImplicitThis": true,
+    "noImplicitThis": false,
     "noFallthroughCasesInSwitch": true,
     "strictPropertyInitialization": false,
     "paths": {
