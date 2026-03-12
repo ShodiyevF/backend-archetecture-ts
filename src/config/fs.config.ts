@@ -8,6 +8,8 @@ namespace FS {
 
         export const keyFolder = path.join(process.cwd(), 'src', 'key')
 
+        export const backupFolder = path.join(process.cwd(), 'backup')
+
         export const accessPrivateKey = path.join(keyFolder, 'access.private.key')
 
         export const accessPublicKey = path.join(keyFolder, 'access.public.key')
@@ -22,6 +24,11 @@ namespace FS {
         const KEY_FOLDER = fs.existsSync(StaticPaths.keyFolder);
         if (!KEY_FOLDER) {
             fs.mkdirSync(StaticPaths.keyFolder);
+        }
+
+        const BACKUP_FOLDER = fs.existsSync(StaticPaths.backupFolder);
+        if (!BACKUP_FOLDER) {
+            fs.mkdirSync(StaticPaths.backupFolder);
         }
     }
     
