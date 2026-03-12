@@ -4,6 +4,8 @@
 /node_modules
 /upload
 /drizzle
+/drizzle_utility
+/backup
 
 # FILES
 package-lock.json
