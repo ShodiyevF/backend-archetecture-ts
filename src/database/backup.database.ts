@@ -30,6 +30,46 @@ namespace DatabaseBackup {
             fs.rmSync(FS.StaticPaths.backupFolder+'/'+file)
         }
     }
+
+    async function checkDbStat(dbName: string): Promise<DatabaseInterface.ICheckDbStatReturn> {
+        const getLatestDbStat = await db.execute(
+            sql`select tup_inserted, tup_updated, tup_deleted from pg_stat_database where datname = ${dbName}`
+        )
+        .then(data => data.rows[0])
+        
+        const getOldDbStat = await utilityDb.select()
+        .from(UtilityDbTableSchema.databaseStat)
+        .then(data => data[0])
+        if (!getOldDbStat) {
+            await utilityDb.insert(UtilityDbTableSchema.databaseStat)
+            .values({
+                dsInsert: String(getLatestDbStat.tup_inserted),
+                dsUpdate: String(getLatestDbStat.tup_updated),
+                dsDelete: String(getLatestDbStat.tup_deleted),
+                dsUpdatedAt: new Date()
+            })
+
+            return 'MODIFICATED'
+        }
+
+        if (
+            getOldDbStat.dsInsert !== getLatestDbStat.tup_inserted ||
+            getOldDbStat.dsUpdate !== getLatestDbStat.tup_updated ||
+            getOldDbStat.dsDelete !== getLatestDbStat.tup_deleted
+        ) {
+            await utilityDb.update(UtilityDbTableSchema.databaseStat)
+            .set({
+                dsInsert: String(getLatestDbStat.tup_inserted),
+                dsUpdate: String(getLatestDbStat.tup_updated),
+                dsDelete: String(getLatestDbStat.tup_deleted),
+                dsUpdatedAt: new Date()
+            })
+
+            return 'MODIFICATED'
+        }
+
+        return 'UNMODIFICATED'
+    }
     
 }
 
