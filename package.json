@@ -11,12 +11,14 @@
     "start:dev": "nodemon",
     "migration:generate": "cross-env rizzle-kit generate:pg --schema=./src/database/schema.database.ts",
     "migration:push": "cross-env node -r esbuild-register src/database/pg.database.ts",
-    "migration": "cross-env drizzle-kit generate:pg --schema=./src/database/schema.database.ts && node -r esbuild-register src/database/migration.database.ts"
+    "migration": "cross-env DB_MIGRATION_TYPE=PRODUCTION drizzle-kit generate:pg --schema=./src/database/schema.database.ts && node -r esbuild-register src/database/migration.database.ts",
+    "migration:utility": "drizzle-kit generate:pg --schema=./src/database/utility_schema.database.ts --out='./drizzle_utility' && cross-env DB_MIGRATION_TYPE=UTILITY node -r esbuild-register src/database/migration.database.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/archiver": "^7.0.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/express-fileupload": "^1.4.4",
@@ -31,6 +33,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "archiver": "^7.0.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "cross-var": "^1.1.0",
